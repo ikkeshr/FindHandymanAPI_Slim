@@ -1,0 +1,9 @@
+{
+    "require": {
+        "kreait/firebase-php": "4.41",
+        "slim/slim": "3.0",
+        "technodelight/php-time-ago": "^1.2",
+        "braintree/braintree_php": "^5.0",
+        "stripe/stripe-php": "^7.28"
+    }
+}

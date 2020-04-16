@@ -1,0 +1,56 @@
+REQUIRED ROUTES:
+
+GET     /user/{id}
+POST    /user
+PUT     /user/{id}
+
+GET     /user/{rateeId}/rating
+POST    /user/{rateeId}/rating
+
+GET     /services
+GET     /services/{handymanId}
+
+GET     /job/{id}
+POST    /job
+PUT     /job/{id}
+DELETE  /job/{id}
+
+GET     /job/{id}/match
+
+GET     /job/{userId}/current
+GET     /job/{userId}/past
+
+DATABASE:
+
+clients: client_id, username, profile_picture_url, email, token, date_joined
+client_address: client_id, address, address_lat, address_lng, label
+
+handymen: handyman_id, username, profile_picture_url, email, token, date_joined, address, address_lat, address_lng
+handyman_services: handyman_id, sub_service_id, start_price, end_price
+handyman_availability: handyman_id, day, start_time, end_time
+
+services: service_id, service_name_en, service_description_en, service_name_fr, service_description_fr
+sub_services: sub_service_id, sub_service_name_en, sub_service_name_fr, service_id
+
+jobs: job_id, description, budget, date, time, address, address_lat, address_lng,
+        client_id, handyman_id, stage, cancelled_by, cancel_reason
+job_pictures: job_id, picture_url
+
+user_ratings: rater_id, ratee_id, job_id, rating, review, date_posted
+
+
+API ROUTES:
+
+METHODS: GET, POST, PUT, DELETE
+
+/user/{id}
+/user{id}/rating
+
+/services
+
+/job/{id}
+/job/{id}/current
+/job/{id}/past
+
+
+
