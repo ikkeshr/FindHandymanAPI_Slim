@@ -17,7 +17,6 @@ $config = ['settings' => [
 $app = new \Slim\App($config);
 
 
-
 // routes
 require '../src/routes/users.php';
 require '../src/routes/services.php';

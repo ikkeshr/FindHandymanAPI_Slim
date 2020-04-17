@@ -42,12 +42,29 @@ $app->post('/payment', function(Request $request, Response $response){
 });
 
 $app->post('/payment/account', function(Request $request, Response $response){
+    // AUTHENTICATION
+    // $auth = new Authentication();
+    // $verifiedUser = $auth->authenticate($request);
+    // if ($verifiedUser['status']['code'] != 200) {
+    //     return $response->withStatus($verifiedUser['status']['code']);
+    // }
+
+    $body = $request->getParsedBody();
+
+    if (empty($body['email']) || empty($body['uid']) || empty($body['username'])) {
+        return $response->withStatus(400);
+    }
+
+    $_email = $body['email'];
+    $_uid = $body['uid'];
+    $_username = $body['username'];
+
     \Stripe\Stripe::setApiKey('sk_test_8iCp41fdeuKUWnnkr6mnYY0j00MHIRxbhA');
 
     $result = \Stripe\Account::create([
         'type' => 'custom',
         'country' => 'US',
-        'email' => 'test@email.com',
+        'email' => $_email,
         'requested_capabilities' => [
             'card_payments',
             'transfers',
@@ -59,7 +76,7 @@ $app->post('/payment/account', function(Request $request, Response $response){
         ],
         'individual' => [
             'dob' => ['day'=>'1', 'month'=>'1', 'year'=>'1901'],
-            'email' => 'test@email.com',
+            'email' => $_email,
             'first_name' => 'fname',
             'last_name' => 'lname',
             'phone' => '1 202 555 0191',
@@ -82,18 +99,19 @@ $app->post('/payment/account', function(Request $request, Response $response){
         ],
         "business_profile"=> [
             "mcc"=> "7299",
-            "name"=> 'Handyman2',
+            "name"=> $_username,
             "product_description"=> "Provide handyman services",
             "url"=> "https://www.facebook.com/ikesh00"
         ]
     ]);
     
     $stripeAccountId = $result->id;
-    // $stripeAccount = \Stripe\Account::retrieve(
-    //     $stripeAccountId
-    // );
 
     // Insert stripe account id in database
+    $db = new DB();
+    $sql = "INSERT INTO handymen_stripe_account (handyman_id, stripe_account_id)
+            VALUES (?,?)";
+    $db->exec($sql, [$_uid, $stripeAccountId]);
 
     //return $response->withJson($stripeAccount);
     return $response->withStatus(200);
