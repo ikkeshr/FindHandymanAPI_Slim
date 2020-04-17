@@ -22,7 +22,7 @@ $app->post('/payment', function(Request $request, Response $response){
 
     // amount is in cents
     // minimum amount is $0.50 US -> Rs 19.85
-    $result = \Stripe\Charge::create([
+    $charge = \Stripe\Charge::create([
         'amount' => $_amount,
         'application_fee_amount' => $fee,
         'currency' => 'mur',
@@ -37,7 +37,7 @@ $app->post('/payment', function(Request $request, Response $response){
     $sql = "UPDATE jobs SET online_payment_made=? WHERE job_id=?";
     $db->exec($sql, [1, $_job_id]);
     
-    //return $response->withJson($result);
+    //return $response->withJson($charge);
     return $response->withStatus(200);
 });
 
@@ -199,10 +199,14 @@ $app->get('/payment/account/{id}', function(Request $request, Response $response
         ['stripe_account' => $stripeAccountId]
     );
 
+    // Converts the balance to mur
+    $balance_amount = round(($balanceObj->pending[0]->amount / 100) * USD_MUR(), 2);
+
     $balance = [
-        'balance' => ($balanceObj->pending[0]->amount / 100),
-        'currency' => $balanceObj->pending[0]->currency
+        'balance' => $balance_amount,
+        'currency' => 'MUR'//strtoupper($balanceObj->pending[0]->currency)
     ];
+
 
     $res = [$balance];
 

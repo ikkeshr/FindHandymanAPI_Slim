@@ -53,4 +53,12 @@ METHODS: GET, POST, PUT, DELETE
 /job/{id}/past
 
 
+STRIPE:
+
+stripe charges => 2.9% + $0.30
+platform charges => 15%
+
+transactions: job_id, stripe_account_id, amount, stripe_charge, platform_charge, sub_total
+
+
 
