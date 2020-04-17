@@ -291,14 +291,13 @@ function getUser($request, $response) {
     $res['status']['code'] = 200;
     $res['data'] = [];
 
-    $auth = new Authentication();
-    $verifiedUser = $auth->authenticate($request);
-    
-    if ($verifiedUser['status']['code'] != 200) {
-        //return $response->withStatus($verifiedUser['status']['code']);
-        $res['status']['code'] = $verifiedUser['status']['code'];
-        return $res;
-    }
+    // $auth = new Authentication();
+    // $verifiedUser = $auth->authenticate($request);
+    // if ($verifiedUser['status']['code'] != 200) {
+    //     //return $response->withStatus($verifiedUser['status']['code']);
+    //     $res['status']['code'] = $verifiedUser['status']['code'];
+    //     return $res;
+    // }
 
     $uid = $request->getAttribute('id');
 
@@ -326,20 +325,25 @@ function getUser($request, $response) {
     //If the user is a handyman the following code will be executed
     $account_type = $user['data'][0]['account_type'];
     if ($account_type == 'handyman') {
-    //Fetch user services
-    $user_services_sql = "SELECT	s.service_id, s.service_name, hs.start_price, hs.end_price
-                FROM	handyman_services hs, services s
-                WHERE	hs.handyman_id=?
-                AND		hs.service_id = s.service_id";
-    $user_services = $db->query($user_services_sql, array($uid))['data'];
-    $user['data'][0]['services'] = $user_services;
+        //Fetch Handyman stripe acc number
+        $stripe_acc_no_sql = "SELECT stripe_account_id from handymen_stripe_account WHERE handyman_id=?";
+        $stripe_acc_no = $db->query($stripe_acc_no_sql, [$uid])['data'][0]['stripe_account_id'];
+        $user['data'][0]['stripe_account_id'] = $stripe_acc_no;
 
-    //Fetch user availability
-    $user_availability_sql = "SELECT day_name, start_time, end_time 
-                    FROM handyman_working_days_time 
-                    WHERE handyman_id = ?";
-    $user_availability = $db->query($user_availability_sql, array($uid))['data'];
-    $user['data'][0]['availability'] = $user_availability;
+        //Fetch user services
+        $user_services_sql = "SELECT	s.service_id, s.service_name, hs.start_price, hs.end_price
+                    FROM	handyman_services hs, services s
+                    WHERE	hs.handyman_id=?
+                    AND		hs.service_id = s.service_id";
+        $user_services = $db->query($user_services_sql, array($uid))['data'];
+        $user['data'][0]['services'] = $user_services;
+
+        //Fetch user availability
+        $user_availability_sql = "SELECT day_name, start_time, end_time 
+                        FROM handyman_working_days_time 
+                        WHERE handyman_id = ?";
+        $user_availability = $db->query($user_availability_sql, array($uid))['data'];
+        $user['data'][0]['availability'] = $user_availability;
     } // END IF
 
     //return $response->withJson($user['data']);

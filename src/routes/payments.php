@@ -180,7 +180,18 @@ $app->delete('/payment/account', function(Request $request, Response $response){
 });
 
 $app->get('/payment/account/{id}', function(Request $request, Response $response){
-    $stripeAccountId = $request->getAttribute('id');
+    // AUTHENTICATION
+    // $auth = new Authentication();
+    // $verifiedUser = $auth->authenticate($request);
+    // if ($verifiedUser['status']['code'] != 200) {
+    //     return $response->withStatus($verifiedUser['status']['code']);
+    // }
+
+    $uid = $request->getAttribute('id');
+    
+    $db = new DB();
+    $stripe_acc_no_sql = "SELECT stripe_account_id from handymen_stripe_account WHERE handyman_id=?";
+    $stripeAccountId = $db->query($stripe_acc_no_sql, [$uid])['data'][0]['stripe_account_id'];
 
     \Stripe\Stripe::setApiKey('sk_test_8iCp41fdeuKUWnnkr6mnYY0j00MHIRxbhA');
 
@@ -193,9 +204,7 @@ $app->get('/payment/account/{id}', function(Request $request, Response $response
         'currency' => $balanceObj->pending[0]->currency
     ];
 
-    $res = [
-        'balance' => $balance
-    ];
+    $res = [$balance];
 
     return $response->withJson($res);
 });
