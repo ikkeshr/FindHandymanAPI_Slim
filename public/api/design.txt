@@ -1,0 +1,42 @@
+
+db password: findhandymanmysql
+
+API
+
+create_user (uid, username, email, phone, account_type)
+edit_user (uid, username, email, phone, account_type)
+delete_user (uid)
+fetch_user (uid)
+
+add_user_details (uid, bio, profile_pic_url, addressArr, servicesArr, availabilityArr)
+edit_user_details (uid, bio, profile_pic_url, addressArr, servicesArr, availabilityArr)
+delete_user_details (uid)
+fetch_user_details (uid)
+
+add_service (service_name, services_dec)
+edit_service (service_id, service_name, services_dec)
+delete_service (service_id)
+fetch_service (service_id)
+
+add_job (service_id, title, description, date, time, address, address_lat, address_lng, budget, job_giver_id): job_id
+edit_job (job_id, service_id, title, description, date, time, address, address_lat, address_lng, budget, job_giver_id)
+delete_job (job_id)
+fetch_job (job_id)
+
+add_job_pictures(job_id, picturesArr)
+delete_job_pictures(job_id)
+edit_job_pictures(job_id, picturesArr)
+fetch_job_pictures(job_id)
+
+fetch_user_current_jobs (user_id)
+fetch_user_past_jobs (user_id)
+
+set_job_status(job_id, status, handyman_id)
+
+add_user_rating(user_id, rater_id, job_id, rating, review, date)
+delete_user_rating(user_id, job_id)
+edit_user_rating(user_id, job_id, rating, review, date)
+fetch_user_rating(user_id)
+fetch_user_rating_services(user_id)
+
+match(job_id)
