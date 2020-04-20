@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 17, 2020 at 12:30 PM
+-- Generation Time: Apr 20, 2020 at 01:01 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.8
 
@@ -153,10 +153,12 @@ INSERT INTO `handyman_services` (`handyman_id`, `service_id`, `start_price`, `en
 ('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 1, 100, 1000),
 ('TrJerfYmH0VjE6XspnJg8Eue7Ig1', 4, 150, 500),
 ('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 1, 333, 999),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 7, 250, 600),
 ('Wjfhkdsjdhfskdjhsdl', 14, 333, 999),
 ('Wjfhkdsjdhfskdjhsdl', 15, 222, 888),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 2, 222, 555),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 3, 100, 250),
+('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 15, 500, 1000),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 7, 600, 1000);
 
 -- --------------------------------------------------------
@@ -190,8 +192,11 @@ INSERT INTO `handyman_working_days_time` (`handyman_id`, `day_name`, `start_time
 ('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'Saturdays', '08:46:00', '16:46:00'),
 ('TrJerfYmH0VjE6XspnJg8Eue7Ig1', 'Thursdays', '17:18:50', '19:18:50'),
 ('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'Saturdays', '10:00:45', '17:00:45'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 'Tuesdays', '07:06:00', '12:06:00'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 'Wednesdays', '07:06:00', '15:06:00'),
 ('Wjfhkdsjdhfskdjhsdl', 'Saturdays', '13:19:08', '12:19:08'),
 ('Wjfhkdsjdhfskdjhsdl', 'Sundays', '13:19:08', '12:19:08'),
+('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'Mondays', '08:37:00', '15:34:00'),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'Saturdays', '05:15:00', '13:15:00'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 'Saturdays', '08:21:43', '17:21:43'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 'Sundays', '11:21:43', '15:21:43');
@@ -214,6 +219,7 @@ CREATE TABLE `handymen_stripe_account` (
 INSERT INTO `handymen_stripe_account` (`handyman_id`, `stripe_account_id`) VALUES
 ('ByKHLbjNFtclcJuZDSRgWg9NOu22', 'acct_1GYAhRLDLyCSx2VL'),
 ('cGgV5SV8VhabXe4d6AhxqKcYsG02', 'acct_1GYAhRLDLyCSx2VL'),
+('JX5pbLFlWxTqAB9qAAyeAN6dgC73', 'acct_1GZFezDz8nfKDNAP'),
 ('KFbTKo4ScoVOimAxL8hAIHoyJjy1', 'acct_1GYAhRLDLyCSx2VL'),
 ('kT5funip2vbD0M5tSyRG3K5ZVuG2', 'acct_1GYAhRLDLyCSx2VL'),
 ('nwBfWEivmoTyZGfAywX6cEAg34g1', 'acct_1GYAhRLDLyCSx2VL'),
@@ -221,6 +227,7 @@ INSERT INTO `handymen_stripe_account` (`handyman_id`, `stripe_account_id`) VALUE
 ('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'acct_1GYAhRLDLyCSx2VL'),
 ('TrJerfYmH0VjE6XspnJg8Eue7Ig1', 'acct_1GYAhRLDLyCSx2VL'),
 ('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'acct_1GYAhRLDLyCSx2VL'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 'acct_1GYvcAEFqTJjlMqz'),
 ('Wjfhkdsjdhfskdjhsdl', 'acct_1GYAhRLDLyCSx2VL'),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'acct_1GYAhRLDLyCSx2VL'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 'acct_1GYAhRLDLyCSx2VL');
@@ -270,7 +277,9 @@ INSERT INTO `jobs` (`job_id`, `service_id`, `title`, `description`, `date`, `tim
 (32, 2, 'Test notification system', 'this job is for the purpose of testing the notification system. ', '2020-03-18', '15:23:39', 'Britannia, Mauritius', '-20.4503000', '57.5575000', 200, '8YaIg1j26dWMb9VbDNOo20q7lnM2', NULL),
 (35, 1, 'Test job for new job page code design', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec', '2020-03-25', '18:04:53', 'bus stop, Old Savanne Rd, Britannia, Mauritius', '-20.4487138', '57.5595022', 420, '8YaIg1j26dWMb9VbDNOo20q7lnM2', NULL),
 (36, 1, 'test job page 2', 'another test ', '2020-03-24', '14:19:24', 'Britannia, Mauritius', '-20.4503000', '57.5575000', 440, '8YaIg1j26dWMb9VbDNOo20q7lnM2', NULL),
-(37, 1, 'ewewe', 'sczxc', '2020-03-24', '14:27:18', 'RÃ©duit, Mauritius', '-20.2300000', '57.4984000', 111, '8YaIg1j26dWMb9VbDNOo20q7lnM2', NULL);
+(37, 1, 'ewewe', 'sczxc', '2020-03-24', '14:27:18', 'RÃ©duit, Mauritius', '-20.2300000', '57.4984000', 111, '8YaIg1j26dWMb9VbDNOo20q7lnM2', NULL),
+(38, 7, 'First job after Stripe Integration', 'This is the first job posted after the \"successfull\" integration of the Stripe Paymetn System', '2020-04-17', '15:15:17', 'A9 Savanne Rd, Mauritius', '-20.4967347', '57.5597776', 300, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 1),
+(39, 1, 'prod job', 'producyion app launch job', '2020-04-20', '10:03:39', '10 Savanne Road, Mauritius', '-20.4163735', '57.5632019', 500, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 1);
 
 -- --------------------------------------------------------
 
@@ -292,7 +301,10 @@ INSERT INTO `job_pictures` (`job_id`, `picture`) VALUES
 (23, '23_1.jpg'),
 (24, '24_0.jpg'),
 (27, '27_0.jpg'),
-(32, '32_0.jpg');
+(32, '32_0.jpg'),
+(39, '39_0.jpg'),
+(39, '39_1.jpg'),
+(39, '39_2.jpg');
 
 -- --------------------------------------------------------
 
@@ -332,10 +344,12 @@ INSERT INTO `job_status` (`job_id`, `handyman_id`, `status`, `job_cancelled_by`,
 (29, 'rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'cancelled', 'client', NULL, NULL, NULL, NULL),
 (30, 'WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'ongoing', NULL, NULL, NULL, NULL, NULL),
 (31, 'rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'ongoing', NULL, '2020-02-23', '16:27:43', 'client', 'Test reschedule accept button'),
-(32, NULL, 'posted', NULL, NULL, NULL, NULL, NULL),
+(32, 'WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'posted', NULL, NULL, NULL, NULL, NULL),
 (35, 'u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'cancelled', NULL, '2020-03-28', '13:14:21', 'client', 'testsss'),
 (36, 'u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'cancelled', 'client', NULL, NULL, NULL, NULL),
-(37, 'u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'cancelled', 'client', NULL, NULL, NULL, NULL);
+(37, 'u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'cancelled', 'client', NULL, NULL, NULL, NULL),
+(38, 'vkI8HGW2uCXNoYwN2esE2HoefyC3', 'completed', NULL, NULL, NULL, NULL, NULL),
+(39, 'rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'completed', NULL, '2020-04-20', '14:45:48', 'handyman', 'no reason');
 
 -- --------------------------------------------------------
 
@@ -399,6 +413,7 @@ INSERT INTO `users` (`uid`, `username`, `picture`, `bio`, `email`, `phone`, `typ
 ('ByKHLbjNFtclcJuZDSRgWg9NOu22', 'editedusername', 'default-profile.png', 'Edited my bio test', 'edittest@email.com', '52222222', 'handyman'),
 ('cGgV5SV8VhabXe4d6AhxqKcYsG02', 'handyman6', 'default-profile.png', 'Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec', 'handyman6@email.com', '52222222', 'handyman'),
 ('hwleWSjYm9TecLHSTneavmkptLp1', 'Client3', 'default-profile.png', 'Newly written bio', 'client3@email.com', '52222222', 'client'),
+('JX5pbLFlWxTqAB9qAAyeAN6dgC73', 'Stripe2', 'default-profile.png', NULL, 'stripe2@email.com', '11111111', 'handyman'),
 ('KFbTKo4ScoVOimAxL8hAIHoyJjy1', 'handymanEditTest', 'default-profile.png', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.', 'handymanEditTest@email.com', '52222222', 'handyman'),
 ('kT5funip2vbD0M5tSyRG3K5ZVuG2', 'newhandy', 'default-profile.png', NULL, 'newhandy@email.com', '123456', 'handyman'),
 ('lq1fyUEECIORNHzVr7GogEb6Qlk1', 'test', 'default-profile.png', NULL, 'test@email.com', '52222222', 'client'),
@@ -408,7 +423,9 @@ INSERT INTO `users` (`uid`, `username`, `picture`, `bio`, `email`, `phone`, `typ
 ('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'Handyman8', 'default-profile.png', 'Hello there I am new to this app', 'handyman8@email.com', '12345678', 'handyman'),
 ('TrJerfYmH0VjE6XspnJg8Eue7Ig1', 'handyman4', 'default-profile.png', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec', 'handyman4@email.com', '52222222', 'handyman'),
 ('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'handyman2', 'default-profile.png', 'Bio written here about handyman2', 'handyman2@email.com', '52222222', 'handyman'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 'Tom Jerry', 'default-profile.png', 'I am Tom from the animated TV series', 'stripe@email.com', '11111111', 'handyman'),
 ('Wjfhkdsjdhfskdjhsdl', 'testhandy', 'default-profile.png', 'someBio written....', NULL, NULL, 'handyman'),
+('wjqm16zv2IcfK0mgOofOmJcrNQh1', 'Ikkesh Ramanna', 'default-profile.png', NULL, 'ikesh.ramanna@gmail.com', '11111111', 'client'),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'handyman3', 'default-profile.png', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.', 'handyman3@email.com', '52222222', 'handyman'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 'handyman5', 'default-profile.png', 'Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec', 'handyman5@email.com', '52222222', 'handyman');
 
@@ -445,8 +462,11 @@ INSERT INTO `user_addresses` (`uid`, `address`, `lat`, `lng`) VALUES
 ('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 'Trois Boutiques, Mauritius', '-20.4518429', '57.6473237'),
 ('TrJerfYmH0VjE6XspnJg8Eue7Ig1', 'Surinam, Mauritius', '-20.5122913', '57.5096834'),
 ('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 'Port Louis, Mauritius', '-20.1637281', '57.5045331'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 'Bel Ombre, Mauritius', '-20.5010095', '57.4259624'),
 ('Wjfhkdsjdhfskdjhsdl', 'Grand Bay', '-20.4188774', '57.5511401'),
 ('Wjfhkdsjdhfskdjhsdl', 'Grand Bois', '-20.4188774', '57.5511401'),
+('wjqm16zv2IcfK0mgOofOmJcrNQh1', 'Flic En Flac Beach, Mauritius', '-20.2995348', '57.3634236'),
+('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'Surinam, Mauritius', '-20.5135046', '57.5108209'),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 'Tyack Lake Road, Mauritius', '-20.3000000', '57.5833300'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 'Curepipe Market, Curepipe, Mauritius', '-20.3181726', '57.5232019');
 
@@ -473,10 +493,15 @@ INSERT INTO `user_ratings` (`uid`, `job_id`, `rater_id`, `rating`, `review`, `da
 ('8YaIg1j26dWMb9VbDNOo20q7lnM2', 1, 'cGgV5SV8VhabXe4d6AhxqKcYsG02', 4, 'Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.', '2020-01-20 09:14:14'),
 ('8YaIg1j26dWMb9VbDNOo20q7lnM2', 7, 'WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 3, 'Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.', '2020-01-20 09:14:14'),
 ('8YaIg1j26dWMb9VbDNOo20q7lnM2', 27, 'nwBfWEivmoTyZGfAywX6cEAg34g1', 5, 'Very helpful client.', '2020-01-20 09:14:14'),
+('8YaIg1j26dWMb9VbDNOo20q7lnM2', 38, 'vkI8HGW2uCXNoYwN2esE2HoefyC3', 5, 'review client1', '2020-04-18 19:25:15'),
+('8YaIg1j26dWMb9VbDNOo20q7lnM2', 39, 'rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 3, 'alright', '2020-04-20 14:49:45'),
 ('cGgV5SV8VhabXe4d6AhxqKcYsG02', 1, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 5, 'Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus.', '2020-01-20 09:14:14'),
 ('cGgV5SV8VhabXe4d6AhxqKcYsG02', 8, 'onXBCDg72BYb9lFIXJvR7YHUejT2', 3, 'Duis leo. Sed fringilla mauris sit amet nibh.', '2020-01-20 09:14:14'),
 ('nwBfWEivmoTyZGfAywX6cEAg34g1', 27, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 5, 'He went above and beyond the call of duty. All of his work was first class, quick and professional. I absolutely will use your service again. Kudos to you for having an awesome employee like him. I highly recommend your services to anyone.', '2020-01-20 14:15:25'),
 ('onXBCDg72BYb9lFIXJvR7YHUejT2', 8, 'cGgV5SV8VhabXe4d6AhxqKcYsG02', 5, 'Duis leo. Sed fringilla mauris sit amet nibh.', '2020-01-20 09:14:14'),
+('rHXUVW5zi5QuZnL5LZ18Kdb3gXc2', 39, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 3, 'ok it was ok', '2020-04-20 14:50:51'),
+('u8e2IgloVXNXAxsqwgv7tRjAWbC3', 35, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 5, 'hjhrtj', '2020-04-18 17:20:23'),
+('vkI8HGW2uCXNoYwN2esE2HoefyC3', 38, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 5, 'Nice work on the air conditioning installation Tom. RECOMMENDED handyman', '2020-04-17 20:01:34'),
 ('WXA4vLLsgBbQ0X0FFL8Ifb9R8Rv2', 7, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 2, 'Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus.', '2020-01-20 09:14:14'),
 ('zsI09y7W6NXDdidtj39speLEBrQ2', 26, '8YaIg1j26dWMb9VbDNOo20q7lnM2', 4, 'niceeee work!!!', '2020-02-17 17:36:23');
 
@@ -558,7 +583,7 @@ ALTER TABLE `user_ratings`
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `services`
