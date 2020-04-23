@@ -26,7 +26,7 @@ DELIMITER $$
 --
 -- Functions
 --
-CREATE DEFINER=`root`@`localhost` FUNCTION `BUDGET_SCORE` (`budget` FLOAT, `hstart_price` FLOAT, `hend_price` FLOAT) RETURNS FLOAT NO SQL
+CREATE FUNCTION `BUDGET_SCORE` (`budget` FLOAT, `hstart_price` FLOAT, `hend_price` FLOAT) RETURNS FLOAT NO SQL
 BEGIN
 
 DECLARE score FLOAT;
@@ -41,7 +41,7 @@ return score;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `DATE_SCORE` (`job_date` DATE, `hday_name` VARCHAR(10)) RETURNS FLOAT NO SQL
+CREATE FUNCTION `DATE_SCORE` (`job_date` DATE, `hday_name` VARCHAR(10)) RETURNS FLOAT NO SQL
 BEGIN
 
 DECLARE score FLOAT;
@@ -56,7 +56,7 @@ RETURN score;
     
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `DISTANCE_SCORE` (`lat1` FLOAT, `lng1` FLOAT, `lat2` FLOAT, `lng2` FLOAT) RETURNS FLOAT NO SQL
+CREATE FUNCTION `DISTANCE_SCORE` (`lat1` FLOAT, `lng1` FLOAT, `lat2` FLOAT, `lng2` FLOAT) RETURNS FLOAT NO SQL
 BEGIN
 
 DECLARE a FLOAT;
@@ -74,7 +74,7 @@ RETURN a;
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `HAVERSINE` (`lat1` FLOAT, `lng1` FLOAT, `lat2` FLOAT, `lng2` FLOAT) RETURNS FLOAT NO SQL
+CREATE FUNCTION `HAVERSINE` (`lat1` FLOAT, `lng1` FLOAT, `lat2` FLOAT, `lng2` FLOAT) RETURNS FLOAT NO SQL
 BEGIN
     RETURN (6371 * acos(cos(radians(lat1)) * 
                     cos(radians(lat2)) * 
@@ -82,7 +82,7 @@ BEGIN
                     sin(radians(lat1)) * sin(radians(lat2))));
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `MATCH_SCORE` (`hday_name` VARCHAR(10), `hstart_time` TIME, `hend_time` TIME, `haddress_lat` FLOAT, `haddress_lng` FLOAT, `hstart_price` DOUBLE, `hend_price` DOUBLE, `jdate` DATE, `jbudget` DOUBLE, `jaddress_lat` FLOAT, `jaddress_lng` FLOAT, `jtime` TIME) RETURNS FLOAT NO SQL
+CREATE FUNCTION `MATCH_SCORE` (`hday_name` VARCHAR(10), `hstart_time` TIME, `hend_time` TIME, `haddress_lat` FLOAT, `haddress_lng` FLOAT, `hstart_price` DOUBLE, `hend_price` DOUBLE, `jdate` DATE, `jbudget` DOUBLE, `jaddress_lat` FLOAT, `jaddress_lng` FLOAT, `jtime` TIME) RETURNS FLOAT NO SQL
 BEGIN
 
     DECLARE d DECIMAL(10,9);
@@ -105,7 +105,7 @@ BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `TIME_SCORE` (`job_time` TIME, `hstart_time` TIME, `hend_time` TIME) RETURNS FLOAT NO SQL
+CREATE FUNCTION `TIME_SCORE` (`job_time` TIME, `hstart_time` TIME, `hend_time` TIME) RETURNS FLOAT NO SQL
 BEGIN
 
 DECLARE score FLOAT;

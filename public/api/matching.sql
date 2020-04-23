@@ -352,3 +352,14 @@ WHERE j.job_id = 2
 AND hs.service_id = j.service_id 
 AND hs.handyman_id = hwdt.handyman_id 
 AND hs.handyman_id = ua.uid
+
+
+------------------------------------------------
+-- EXCLUDE unavailable handymen
+
+SELECT  js.handyman_id
+FROM    jobs j, job_status js
+WHERE   j.date = :DATE
+AND     (SUBTIME(j.time, '03:00') < :TIME AND ADDTIME(j.time, '03:00') >= :TIME)
+AND     j.job_id = js.job_id
+AND     js.status = 'ongoing'

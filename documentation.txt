@@ -60,5 +60,9 @@ platform charges => 15%
 
 transactions: job_id, stripe_account_id, amount, stripe_charge, platform_charge, sub_total
 
+CRON JOB TO NOTIFY USERS HAVING A JOB ON THE CURRENT DATE:
++ retrieve job where date is day
++ insert record in firestore, notifType="reminder"
+
 
 

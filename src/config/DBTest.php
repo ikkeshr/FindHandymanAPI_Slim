@@ -113,10 +113,6 @@ class DB{
         $this->conn->rollBack();
     }
 
-    public function quote($string) {
-        return $this->conn->quote($string);
-    }
-
 }
 
 ?>

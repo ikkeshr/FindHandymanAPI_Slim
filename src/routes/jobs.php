@@ -345,15 +345,42 @@ $app->delete('/job/{id}', function(Request $request, Response $response){
 
 $app->get('/job/{id}/match', function(Request $request, Response $response){
     //AUTHENTICATION
-    $auth = new Authentication();
-    $verifiedUser = $auth->authenticate($request);
-    if ($verifiedUser['status']['code'] != 200) {
-        return $response->withStatus($verifiedUser['status']['code']);
-    }
+    // $auth = new Authentication();
+    // $verifiedUser = $auth->authenticate($request);
+    // if ($verifiedUser['status']['code'] != 200) {
+    //     return $response->withStatus($verifiedUser['status']['code']);
+    // }
     
     $job_id = $request->getAttribute('id');
     
     $db = new DB();
+
+    $sql = "SELECT date, time FROM jobs WHERE job_id=?";
+    $job = $db->query($sql, [$job_id])['data'];
+
+    if (sizeof($job) == 0) {
+        return $response->withStatus(204); // No Content
+    }
+    
+    // Exclude handymen who have other jobs schedule on the date
+    $sql = "SELECT  js.handyman_id
+            FROM    jobs j, job_status js
+            WHERE   j.date = ?
+            AND     (SUBTIME(j.time, '03:00') < ? AND ADDTIME(j.time, '03:00') >= ?)
+            AND     j.job_id = js.job_id
+            AND     js.status = 'ongoing'";
+    
+    $excludeHandymanObjArr = $db->query($sql, [$job[0]['date'], $job[0]['time'], $job[0]['time']])['data'];
+    $excludeHandymanSQLString = "";
+
+    if (sizeof($excludeHandymanObjArr) > 0) {
+        $excludeHandymanArr = array_column($excludeHandymanObjArr, 'handyman_id');
+        $excludeHandymanSQLString = "AND hs.handyman_id NOT IN (".implode(',',array_map(array($db, 'quote'), $excludeHandymanArr)).")" . " ";
+        # https://arjunphp.com/array_map-class-method-php/
+        # https://stackoverflow.com/questions/10490860/php-implode-but-wrap-each-element-in-quotes
+    }
+
+    
     $sql ="SELECT  	hs.handyman_id, u.username, u.bio, u.picture, hs.start_price, hs.end_price,
 					ROUND(HAVERSINE(ua.lat, ua.lng, j.address_lat, j.address_lng),1) as distance,
 					IFNULL( ROUND(AVG(ur.rating),1), 0) as rating,
@@ -365,6 +392,7 @@ $app->get('/job/{id}/match', function(Request $request, Response $response){
 					handyman_services hs LEFT JOIN user_ratings ur ON hs.handyman_id = ur.uid
 			WHERE   j.job_id = ?
 			AND     hs.service_id = j.service_id
+            $excludeHandymanSQLString
 			AND     hs.handyman_id = hwdt.handyman_id
 			AND     hs.handyman_id = ua.uid
 			AND     hs.handyman_id = u.uid

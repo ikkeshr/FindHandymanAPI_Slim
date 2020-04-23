@@ -94,5 +94,25 @@ echo $signInResult->idToken(); */
 // echo $object->signedUrl($d);
 //print_r($d);
 
-phpinfo();
+// phpinfo();
+
+require "../src/config/DBTest.php";
+$db = new Db();
+
+$sql = "SELECT  js.handyman_id
+        FROM    jobs j, job_status js
+        WHERE   j.date = ?
+        AND     (SUBTIME(j.time, '03:00') < ? AND ADDTIME(j.time, '03:00') >= ?)
+        AND     j.job_id = js.job_id
+        AND     js.status = 'ongoing'";
+
+$date = '2020-04-25';
+$time = '12:00';
+
+$handymen = array_column($db->query($sql, [$date, $time, $time])['data'], 'handyman_id');
+print_r($handymen);
+
+$exludedHandymen = "WHERE handyman_id NOT IN (".implode(',',$handymen).")";
+echo $exludedHandymen;
+
 ?>
