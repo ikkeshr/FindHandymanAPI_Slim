@@ -95,7 +95,7 @@ BEGIN
 
     SET b = BUDGET_SCORE(jbudget, hstart_price, hend_price);
 
-	SET a = DISTANCE_SCORE(jaddress_lat, jaddress_lng, haddress_lat, haddress_lng);
+	  SET a = DISTANCE_SCORE(jaddress_lat, jaddress_lng, haddress_lat, haddress_lng);
 
     SET t = TIME_SCORE(jtime, hstart_time, hend_time);
 
@@ -114,6 +114,10 @@ IF job_time < hstart_time OR job_time > hend_time THEN
 	SET score = 0;
 ELSE
 	SET score = (hend_time - job_time) / job_time;
+END IF;
+
+IF score IS NULL THEN
+  SET score = 0;
 END IF;
 
 RETURN score;

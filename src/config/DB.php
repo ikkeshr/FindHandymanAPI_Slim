@@ -3,7 +3,7 @@ class DB{
  
     // database credentials
     private $host = "localhost";
-    private $db_name = "findhandyman_prod";
+    private $db_name = "findhandyman";
     private $username = "root";
     private $password = ""; //root1234 on 000webhost
     private $conn;

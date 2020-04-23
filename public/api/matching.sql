@@ -363,3 +363,22 @@ WHERE   j.date = :DATE
 AND     (SUBTIME(j.time, '03:00') < :TIME AND ADDTIME(j.time, '03:00') >= :TIME)
 AND     j.job_id = js.job_id
 AND     js.status = 'ongoing'
+
+
+-- query to cope with handyman with no availability
+SELECT  hs.handyman_id, u.username, u.bio, u.picture, hs.start_price, hs.end_price,
+        ROUND(HAVERSINE(ua.lat, ua.lng, j.address_lat, j.address_lng),1) as distance,
+        IFNULL( ROUND(AVG(ur.rating),1), 0) as rating,
+                    MAX(MATCH_SCORE(
+                        hwdt.day_name, hwdt.start_time, hwdt.end_time, ua.lat, ua.lng, hs.start_price, hs.end_price,
+                        j.date, j.budget, j.address_lat, j.address_lng, j.time
+                    )) as score
+FROM    user_addresses ua, jobs j, users u,
+        (handyman_services hs LEFT JOIN user_ratings ur ON hs.handyman_id = ur.uid)
+        LEFT JOIN handyman_working_days_time hwdt ON hs.handyman_id = hwdt.handyman_id
+WHERE   j.job_id = 1
+AND     hs.service_id = j.service_id
+AND     hs.handyman_id = ua.uid
+AND     hs.handyman_id = u.uid
+GROUP BY hs.handyman_id
+ORDER BY score DESC

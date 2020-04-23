@@ -381,23 +381,23 @@ $app->get('/job/{id}/match', function(Request $request, Response $response){
     }
 
     
-    $sql ="SELECT  	hs.handyman_id, u.username, u.bio, u.picture, hs.start_price, hs.end_price,
-					ROUND(HAVERSINE(ua.lat, ua.lng, j.address_lat, j.address_lng),1) as distance,
-					IFNULL( ROUND(AVG(ur.rating),1), 0) as rating,
-					MAX(MATCH_SCORE(
-						hwdt.day_name, hwdt.start_time, hwdt.end_time, ua.lat, ua.lng, hs.start_price, hs.end_price,
-						j.date, j.budget, j.address_lat, j.address_lng, j.time
-					)) as score
-			FROM    handyman_working_days_time hwdt, user_addresses ua, jobs j, users u,
-					handyman_services hs LEFT JOIN user_ratings ur ON hs.handyman_id = ur.uid
-			WHERE   j.job_id = ?
-			AND     hs.service_id = j.service_id
+    $sql ="SELECT  hs.handyman_id, u.username, u.bio, u.picture, hs.start_price, hs.end_price,
+                ROUND(HAVERSINE(ua.lat, ua.lng, j.address_lat, j.address_lng),1) as distance,
+                IFNULL( ROUND(AVG(ur.rating),1), 0) as rating,
+                            MAX(MATCH_SCORE(
+                                hwdt.day_name, hwdt.start_time, hwdt.end_time, ua.lat, ua.lng, hs.start_price, hs.end_price,
+                                j.date, j.budget, j.address_lat, j.address_lng, j.time
+                            )) as score
+            FROM    user_addresses ua, jobs j, users u,
+                (handyman_services hs LEFT JOIN user_ratings ur ON hs.handyman_id = ur.uid)
+                LEFT JOIN handyman_working_days_time hwdt ON hs.handyman_id = hwdt.handyman_id
+            WHERE   j.job_id = 1
+            AND     hs.service_id = j.service_id
             $excludeHandymanSQLString
-			AND     hs.handyman_id = hwdt.handyman_id
-			AND     hs.handyman_id = ua.uid
-			AND     hs.handyman_id = u.uid
-			GROUP BY hs.handyman_id
-			ORDER BY score DESC";
+            AND     hs.handyman_id = ua.uid
+            AND     hs.handyman_id = u.uid
+            GROUP BY hs.handyman_id
+            ORDER BY score DESC";
 
 	$matchedHandymen = $db->query($sql, [$job_id]);
     return $response->withJson($matchedHandymen['data'])->withStatus($matchedHandymen['status']['code']);
